@@ -1,24 +1,16 @@
 import React from 'react';
 
-const renderOptions = (sectors, level = 0) => {
-    return sectors.map(sector => (
-        <React.Fragment key={sector.id}>
-            {sector.children && sector.children.length > 0 ? (
-                <optgroup 
-                label={`${'\u00A0'.repeat(level * 2)}${sector.name}`}
-                className='font-semibold'
-                >
-                    <option value={sector.id}>{`${'\u00A0'.repeat(level * 2)}${sector.name}`}</option>
-                    {renderOptions(sector.children, level + 1)}
-                </optgroup>
-            ) : (
+
+    const renderOptions = (sectors, level = 0) => {
+        return sectors.map((sector) => (
+            <React.Fragment key={sector.id}>
                 <option value={sector.id}>
                     {`${'\u00A0'.repeat(level * 2)}${sector.name}`}
                 </option>
-            )}
-        </React.Fragment>
-    ));
-};
+                {sector.children && sector.children.length > 0 && renderOptions(sector.children, level + 1)}
+            </React.Fragment>
+        ));
+    };
 
 const SectorSelect = ({ sectors, onChange, selectedSectors }) => (
     <select 
@@ -32,6 +24,7 @@ const SectorSelect = ({ sectors, onChange, selectedSectors }) => (
     >
         <option value="">Select a sector</option>
         {renderOptions(sectors)}
+        {console.log('logging comp last',sectors)}
     </select>
 );
 
