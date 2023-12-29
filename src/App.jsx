@@ -11,9 +11,11 @@ function App() {
   const [selectedSectors, setSelectedSectors] = useState([])
   const [name, setName] = useState('')
   const [agreeTerms, setAgreeTerms] = useState(false)
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
     const fetchSectors = async () => {
+      setLoading(true)
       const response = await fetch(baseUrl);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -21,7 +23,9 @@ function App() {
       const data = await response.json();
       const processedSectors = arrangeSectors(data) 
       setSectors(processedSectors);
+      setLoading(false)
     };
+
     fetchSectors();
   }, []);
 
@@ -45,6 +49,7 @@ function App() {
         sectors: selectedSectors,
         agreed: true
       }
+      setLoading(true)
       const response = await fetch(`${baseUrl}/addUser`, {
         method: 'POST',
         headers: {
@@ -52,6 +57,7 @@ function App() {
         },
         body: JSON.stringify(data),
       });
+      setLoading(false)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -60,7 +66,13 @@ function App() {
 
   }
 
-  
+  if (loading) {
+    return (
+      <div className='h-full w-full flex justify-center items-center bg-zinc-400/50'>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-purple-600"></div>
+      </div>
+    )
+    }
 
   return (
     <div className='h-full w-full flex justify-center items-center bg-zinc-400/50'>
