@@ -1,31 +1,36 @@
 import React from 'react';
+import Select from 'react-select';
 
+const flattenOptions = (sectors, level = 0) => {
+    return sectors.reduce((acc, sector) => {
+        const option = {
+            value: String(sector.id),
+            label: `${'\u00A0'.repeat(level * 4)}${sector.name}`,
+        };
 
-    const renderOptions = (sectors, level = 0) => {
-        return sectors.map((sector) => (
-            <React.Fragment key={sector.id}>
-                <option value={sector.id}>
-                    {`${'\u00A0'.repeat(level * 2)}${sector.name}`}
-                </option>
-                {sector.children && sector.children.length > 0 && renderOptions(sector.children, level + 1)}
-            </React.Fragment>
-        ));
-    };
+        if (sector.children && sector.children.length > 0) {
+            return [...acc, option, ...flattenOptions(sector.children, level + 1)];
+        }
 
-const SectorSelect = ({ sectors, onChange, selectedSectors }) => (
-    <select 
-    onChange={(e)=> {
-        onChange(e.target.selectedOptions[0].value)
-    }} 
-    size={5} 
-    multiple
-    value={selectedSectors}
-    className='p-3 text-md md:text-lg text-gray-950/90 bg-stone-400/80 active:bg-green-400 focus:outline-none focus:ring-2 focus:ring-green-600 transition-all duration-200 ease-in-out border-0 rounded-lg px-3'
-    >
-        <option value="">Select a sector</option>
-        {renderOptions(sectors)}
-        {console.log('logging comp last',sectors)}
-    </select>
-);
+        return [...acc, option];
+    }, []);
+};
+
+const SectorSelect = ({ sectors, onChange, selectedSectors }) => {
+    const options = flattenOptions(sectors);
+    const selectedOptions = options.filter((option) => selectedSectors.includes(option.value));
+
+    return (
+        <Select
+            options={options}
+            isMulti
+            onChange={(selectedOptions) => {
+                onChange(selectedOptions.map((option) => option.value));
+            }}
+            defaultValue={selectedOptions}
+            className='w-full text-zinc-700 flex-nowrap'
+        />
+    );
+};
 
 export default SectorSelect;
