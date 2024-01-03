@@ -20,7 +20,7 @@ const SectorSelect = ({ sectors, onChange, selectedSectors }) => (
     size={5} 
     multiple
     value={selectedSectors}
-    className='text-md md:text-lg text-purple-700 bg-zinc-100 active:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all duration-200 ease-in-out border-0 rounded-lg px-3'
+    className='p-3 text-md md:text-lg text-gray-950/90 bg-stone-400/80 active:bg-green-400 focus:outline-none focus:ring-2 focus:ring-green-600 transition-all duration-200 ease-in-out border-0 rounded-lg px-3'
     >
         <option value="">Select a sector</option>
         {renderOptions(sectors)}
