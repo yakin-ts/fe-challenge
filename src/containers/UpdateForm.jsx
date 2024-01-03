@@ -39,13 +39,8 @@ function UpdateForm() {
   }, []);
 
   const handleSelection = (value) => {
-    if (selectedSectors.includes(value)) {
-      const newSelection = selectedSectors.filter((sector) => sector !== value);
-      setSelectedSectors(newSelection);
-    } else {
-      setSelectedSectors([...selectedSectors, value]);
-    }
-  };
+    setSelectedSectors(value.map(String));
+  }
 
   const handleUpdate = (event) => {
     event.preventDefault();
@@ -101,7 +96,7 @@ console.log(selectedSectors)
               Name :
             </label>
             <input
-              className="focus:outline-none w-1/2 bg-transparent border-b border-green-400 text-zinc-200 font-semibold"
+              className="focus:outline-none w-1/2 bg-transparent border-b border-white text-zinc-100 font-semibold"
               type="text"
               id="name"
               name="name"
@@ -111,7 +106,7 @@ console.log(selectedSectors)
             />
           </div>
           <div className="flex flex-col md:flex-row">
-            <label htmlFor="sectors" className="font-semibold pr-5">
+            <label htmlFor="sectors" className="font-semibold pr-5 text-nowrap">
               Sectors :
             </label>
             {sectors ? (
@@ -131,7 +126,7 @@ console.log(selectedSectors)
               name="terms"
               value={agreeTerms}
               onChange={(e) => setAgreeTerms(e.target.checked)}
-              className="h-4 w-4"
+              className="h-4 w-4 md:h-6 md:w-6"
             />
             <label htmlFor="terms" className=" font-semibold ">
               I agree to the terms and conditions

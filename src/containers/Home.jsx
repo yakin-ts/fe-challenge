@@ -39,13 +39,8 @@ function App() {
   }, []);
 
   const handleSelection = (value) => {
-    if (selectedSectors.includes(value)) {
-      const newSelection = selectedSectors.filter((sector) => sector !== value);
-      setSelectedSectors(newSelection);
-    } else {
-      setSelectedSectors([...selectedSectors, value]);
-    }
-  };
+    setSelectedSectors(value.map(String));
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -81,7 +76,7 @@ function App() {
     }
   };
 
-
+console.log(selectedSectors)
   return (
     <div className="h-full w-full flex justify-center items-center bg-sky-700/90 text-gray-950">
       <ToastContainer />
@@ -100,7 +95,7 @@ function App() {
               Name :
             </label>
             <input
-              className="focus:outline-none w-1/2 bg-transparent border-b border-green-400 text-zinc-200 font-semibold"
+              className="focus:outline-none w-1/2 bg-transparent border-b border-white text-white font-semibold"
               type="text"
               id="name"
               name="name"
@@ -110,7 +105,7 @@ function App() {
             />
           </div>
           <div className="flex flex-col md:flex-row">
-            <label htmlFor="sectors" className="font-semibold pr-5">
+            <label htmlFor="sectors" className="font-semibold pr-5 text-nowrap">
               Sectors :
             </label>
             {sectors ? (
@@ -130,7 +125,7 @@ function App() {
               name="terms"
               value={agreeTerms}
               onChange={(e) => setAgreeTerms(e.target.checked)}
-              className="h-4 w-4"
+              className="h-4 w-4 md:h-6 md:w-6"
             />
             <label htmlFor="terms" className=" font-semibold ">
               I agree to the terms and conditions
